@@ -81,19 +81,20 @@ def train(train_loader, valid_loader, epochs, model,
                     valid_summary[0][-1] = 1
 
                     # tensor, gpu
-                    valid_doc = torch.tensor(valid_doc)
-                    valid_summary = torch.tensor(valid_summary)
-                    valid_doc = valid_doc.to(device)
-                    valid_summary = valid_summary.to(device)
+                valid_doc = torch.tensor(valid_doc)
+                valid_summary = torch.tensor(valid_summary)
+                valid_doc = valid_doc.to(device)
+                valid_summary = valid_summary.to(device)
 
-                    # Evaluation
-                    outputs1 = model(valid_doc, labels=valid_summary)
+                # Evaluation
+                outputs1 = model(valid_doc, labels=valid_summary)
 
-                    # Save Best Performance Model
-                    if outputs1.loss < best_valid_loss:
-                        best_valid_loss = outputs1.loss
-                        print(best_valid_loss)
-                        torch.save(model.state_dict(), "Summarization_model.pt")
+                # Save Best Performance Model
+                if outputs1.loss < best_valid_loss:
+                    best_valid_loss = outputs1.loss
+                    print(best_valid_loss)
+                    torch.save(model.state_dict(), "Summarization_model.pt")
 
     model.load_state_dict(torch.load("Summarization_model.pt"))
+    
     return model
