@@ -1,20 +1,26 @@
 import torch
 
-def train(train_loader, valid_loader, epochs, model, tokenizer, optimizer, device):
+
+def train(train_loader, valid_loader, epochs, model,
+          tokenizer, optimizer, device):
     """
     Training
     """
-    total_loss=0
+    total_loss = 0
     best_valid_loss = 987654321
     itr = 1
     p_itr = 500
     for epoch in range(epochs):
         for text, ans in train_loader:
 
-            #encoding and zero padding
-            ori_doc = [tokenizer.encode_plus(t, add_special_tokens=True, max_length=1024, pad_to_max_length=True)[
+            # encoding and zero padding
+            ori_doc = [tokenizer.encode_plus(t, add_special_tokens=True,
+                                             max_length=1024,
+                                             pad_to_max_length=True)[
                            "input_ids"] for t in text]
-            ref_sum = [tokenizer.encode_plus(t, add_special_tokens=True, max_length=512, pad_to_max_length=True)[
+            ref_sum = [tokenizer.encode_plus(t, add_special_tokens=True,
+                                             max_length=512,
+                                             pad_to_max_length=True)[
                            "input_ids"] for t in ans]
 
             # decoder_inputs : <pad> + reference_summary
@@ -23,18 +29,23 @@ def train(train_loader, valid_loader, epochs, model, tokenizer, optimizer, devic
                 dec_in.append(i)
             dec_in = dec_in[:-1]
 
-            #labels : reference_summary + <eos> token
+            # labels : reference_summary + <eos> token
             for i in range(len(ref_sum[0])):
                 if ref_sum[0][i] == 3:
                     ref_sum[0][i] = 1
                     break
-                if i == len(ref_sum[0]) - 1: ref_sum[0][len(ref_sum[0]) - 1] = 1
+                if i == len(ref_sum[0]) - 1: ref_sum[0][len(ref_sum[0]) - 1]\
+                    = 1
 
-            #tensor, gpu
-            ori_doc, dec_in, ref_sum = torch.tensor(ori_doc), torch.tensor([dec_in]), torch.tensor(ref_sum)
-            ori_doc, dec_in, ref_sum = ori_doc.to(device), dec_in.to(device), ref_sum.to(device)
+            # tensor, gpu
+            ori_doc = torch.tensor(ori_doc)
+            dec_in = torch.tensor([dec_in])
+            ref_sum = torch.tensor(ref_sum)
+            ori_doc = ori_doc.to(device)
+            dec_in = dec_in.to(device)
+            ref_sum = ref_sum.to(device)
 
-            #Training, optimization, loss Fuction
+            # Training, optimization, loss Fuction
             outputs = model(ori_doc, decoder_input_ids=dec_in, labels=ref_sum)
             optimizer.zero_grad()
             total_loss += outputs.loss
@@ -43,34 +54,45 @@ def train(train_loader, valid_loader, epochs, model, tokenizer, optimizer, devic
             optimizer.step()
 
             if itr % p_itr == 0:
-                print('[Epoch {}/{}] Iteration {} -> Train Loss: {:.4f}'.format(epoch + 1, epochs, itr,
-                                                                                total_loss / p_itr
-                                                                                ))
+                print('[Epoch {}/{}] Iteration {} -> Train Loss: {:.4f}'.format
+                      (epoch + 1, epochs, itr, total_loss / p_itr))
+
                 total_loss = 0
 
             itr += 1
 
-        #Validation data evaluation
+        # Validation data evaluation
         model.eval()
         with torch.no_grad():
-                for val_text1, val_ans1 in valid_loader:
+            for val_text1, val_ans1 in valid_loader:
 
-                    # encoding and zero padding
-                    valid_doc = [tokenizer.encode_plus(t, add_special_tokens=True, max_length = 1024, pad_to_max_length = True)["input_ids"] for t in val_text1]
-                    valid_summary = [tokenizer.encode_plus(t, add_special_tokens=True, max_length = 512, pad_to_max_length = True)["input_ids"] for t in val_ans1]
+                # encoding and zero padding
+                valid_doc = [tokenizer.encode_plus(t, add_special_tokens=True,
+                                                   max_length=1024,
+                                                   pad_to_max_length=True)
+                             ["input_ids"] for t in val_text1]
+                valid_summary = [tokenizer.encode_plus(t,
+                                                       add_special_tokens=True,
+                                                       max_length=512,
+                                                       pad_to_max_length=True)
+                                 ["input_ids"] for t in val_ans1]
 
-                    # labels : reference_summary + <eos> token
-                    for i in range(len(valid_summary[0])):
-                        if valid_summary[0][i] == 3:
-                            valid_summary[0][i] = 1
-                            break
-                        if i == len(valid_summary[0]) - 1: valid_summary[0][len(valid_summary[0]) - 1] = 1
+                # labels : reference_summary + <eos> token
+                for i in range(len(valid_summary[0])):
+                    if valid_summary[0][i] == 3:
+                        valid_summary[0][i] = 1
+                        break
+
+                    if (i == len(valid_summary[0])-1):
+                        valid_summary[0][len(valid_summary[0]) - 1] = 1
 
                     # tensor, gpu
-                    valid_doc, valid_summary = torch.tensor(valid_doc), torch.tensor(valid_summary)
-                    valid_doc, valid_summary = valid_doc.to(device), valid_summary.to(device)
+                    valid_doc = torch.tensor(valid_doc)
+                    valid_summary = torch.tensor(valid_summary)
+                    valid_doc = valid_doc.to(device)
+                    valid_summary = valid_summary.to(device)
 
-                    #Evaluation
+                    # Evaluation
                     outputs1 = model(valid_doc,  labels=valid_summary)
 
                     # Save Best Performance Model
