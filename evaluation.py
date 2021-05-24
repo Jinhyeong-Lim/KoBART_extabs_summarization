@@ -40,10 +40,7 @@ def eval(model, tokenizer, test_loader, device):
 
             # Summarization Preprocessing
             output = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
-            for x in reversed(range(len(output))):
-                if output[x] == '.':
-                    output = output[:x + 1]
-                    break
+            output = output[:len(output) - output[::-1].find('.')]
 
             # Print
             print("Original_Article : ", str(text[0]))

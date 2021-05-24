@@ -22,8 +22,8 @@ def data_load():
 
             # 해당 기사 본문 Parsing
             with open('./news_data/data/' + str(doc_id[0])+".json") as \
-                    json_file:
-                origin_data = json.load(json_file)
+                    j_file:
+                origin_data = json.load(j_file)
                 for data in origin_data["document"]:
                     if data["id"] == d["document_id"]:
                         paragraph = data["paragraph"]
