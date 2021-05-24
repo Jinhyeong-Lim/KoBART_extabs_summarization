@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
 
-class Dataset(Dataset):
+class SummaryDataset(Dataset):
     """(본문, 요약문) 구조를 가진 데이터 셋 생성"""
 
     def __init__(self, df):
@@ -28,15 +28,15 @@ def data_preprocessing(text):
                                                  [int(.8 * len(text)),
                                                   int(.9 * len(text))])
 
-    train_dataset = Dataset(train_data)
+    train_dataset = SummaryDataset(train_data)
     train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True,
                               num_workers=2)
 
-    valid_dataset = Dataset(valid_data)
+    valid_dataset = SummaryDataset(valid_data)
     valid_loader = DataLoader(valid_dataset, batch_size=5, shuffle=True,
                               num_workers=2, drop_last=True)
 
-    test_dataset = Dataset(test_data)
+    test_dataset = SummaryDataset(test_data)
     test_loader = DataLoader(test_dataset, batch_size=1, shuffle=True,
                              num_workers=2)
 

@@ -25,17 +25,14 @@ def train(train_loader, valid_loader, epochs, model,
 
             # decoder_inputs : <pad> + reference_summary
             dec_in = [3]
-            for i in ref_sum[0]:
+            for i in ref_sum[0][:-1]:
                 dec_in.append(i)
-            dec_in = dec_in[:-1]
 
             # labels : reference_summary + <eos> token
-            for i in range(len(ref_sum[0])):
-                if ref_sum[0][i] == 3:
-                    ref_sum[0][i] = 1
-                    break
-                if i == len(ref_sum[0]) - 1: ref_sum[0][len(ref_sum[0]) - 1]\
-                    = 1
+            if ref_sum[0].index(3):
+                ref_sum[0][ref_sum[0].index(3)] = 0
+            else:
+                ref_sum[0][-1] = 1
 
             # tensor, gpu
             ori_doc = torch.tensor(ori_doc)
@@ -78,13 +75,10 @@ def train(train_loader, valid_loader, epochs, model,
                                  ["input_ids"] for t in val_ans1]
 
                 # labels : reference_summary + <eos> token
-                for i in range(len(valid_summary[0])):
-                    if valid_summary[0][i] == 3:
-                        valid_summary[0][i] = 1
-                        break
-
-                    if (i == len(valid_summary[0])-1):
-                        valid_summary[0][len(valid_summary[0]) - 1] = 1
+                if valid_summary[0].index(3):
+                    valid_summary[0][valid_summary[0].index(3)] = 1
+                else:
+                    valid_summary[0][-1] = 1
 
                     # tensor, gpu
                     valid_doc = torch.tensor(valid_doc)
@@ -93,7 +87,7 @@ def train(train_loader, valid_loader, epochs, model,
                     valid_summary = valid_summary.to(device)
 
                     # Evaluation
-                    outputs1 = model(valid_doc,  labels=valid_summary)
+                    outputs1 = model(valid_doc, labels=valid_summary)
 
                     # Save Best Performance Model
                     if outputs1.loss < best_valid_loss:
