@@ -3,7 +3,7 @@
   + Paper(To appear in KCC2021)
 
 <br>
-  생성요약의 성능을 향상 시키기 위해 상대적으로 쉬운 과제인 추출요약 학습 후 어려운 과제인 생성요약을 학습 시키는 커리큘럼 학습 사용 
+생성요약의 성능을 향상 시키기 위해 상대적으로 쉬운 과제인 추출요약 학습 후 어려운 과제인 생성요약을 학습 시키는 커리큘럼 학습 사용 
   
 <br>
 추출 요약문(Reference Extractive-Summary)가 없는 경우를 대비해 임시 추출요약문 (Pseudo Extractive-Summary) 를 만들기 위해 TextRank, Lead-N, Principal 전략 을 사용하여 커리큘럼 학습 진행
@@ -17,7 +17,7 @@
 
 ### Requirements
 - Python 3.7+
-  - pip install -r requirements.txt or manually install the packages below.
+  - __pip install -r requirements.txt__ or manually install the packages below.
 ```
 torch==1.8.1
 transformers==4.6.0
