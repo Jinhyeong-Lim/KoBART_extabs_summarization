@@ -15,6 +15,18 @@
 -  1차 미세조정 된 모델에 본문을 입력으로 __추상 요약문__ 을 생성하도록 __B (K - A)번__ 학습
 <br><br>
 
+### Requirements
+- Python 3.7+
+  - pip install -r requirements.txt or manually install the packages below.
+```
+torch==1.8.1
+transformers==4.6.0
+json
+rouge
+pandas
+numpy
+torch.utils.data
+```
 ### Data
 - 국립 국어원 요약 말뭉치 데이터셋, 신문 말뭉치 데이터셋 사용
 - 본문은 신문 말뭉치 데이터셋, 요약문은 요약 말뭉치 데이터셋 에서 Parsing 
