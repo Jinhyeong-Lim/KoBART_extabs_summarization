@@ -3,10 +3,10 @@
   + Paper(To appear in KCC2021)
 
 <br>
-  생성요약의 성능을 향상 시키기 위해 상대적으로 쉬운 과제인 추출요약 학습 후 
-어려운 과제인 생성요약을 학습 시키는 __커리큘럼 학습__ 사용 
+  생성요약의 성능을 향상 시키기 위해 상대적으로 쉬운 과제인 추출요약 학습 후 어려운 과제인 생성요약을 학습 시키는 커리큘럼 학습 사용 
+  
 <br>
-추출 요약문(Reference Extractive-Summary)가 없는 경우를 대비해 __임시 추출요약문__ (Pseudo Extractive-Summary) 를 만들기 위해 __TextRank, Lead-N, Principal 전략__ 을 사용하여 커리큘럼 학습 진행
+추출 요약문(Reference Extractive-Summary)가 없는 경우를 대비해 임시 추출요약문 (Pseudo Extractive-Summary) 를 만들기 위해 TextRank, Lead-N, Principal 전략 을 사용하여 커리큘럼 학습 진행
 <br>
 
 <br> ![캡처](https://user-images.githubusercontent.com/64317686/119776563-0fbecd80-bf00-11eb-9225-56c05ec67844.JPG)
