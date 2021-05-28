@@ -21,7 +21,7 @@ def data_load():
             abs = " ".join(i for i in d["summary_sentences"])
 
             # 해당 기사 본문 Parsing
-            with open('./news_data/data/' + str(doc_id[0])+".json") as \
+            with open('./news/data/' + str(doc_id[0])+".json") as \
                     j_file:
                 origin_data = json.load(j_file)
                 for data in origin_data["document"]:
@@ -33,4 +33,4 @@ def data_load():
                         abs_data.append((preprocess_text, abs))
                         break
 
-    return abs_data
+    return ext_data, abs_data

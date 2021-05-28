@@ -95,6 +95,4 @@ def train(train_loader, valid_loader, epochs, model,
                     print(best_valid_loss)
                     torch.save(model.state_dict(), "Summarization_model.pt")
 
-    model.load_state_dict(torch.load("Summarization_model.pt"))
-    
     return model
