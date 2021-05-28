@@ -24,7 +24,7 @@ def data_preprocessing(text):
 
     text = pd.DataFrame(text)
     train_data, valid_data, test_data = np.split(text.sample(frac=1,
-                                                             random_state=200),
+                                                             random_state=42),
                                                  [int(.8 * len(text)),
                                                   int(.9 * len(text))])
 
