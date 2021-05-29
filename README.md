@@ -33,5 +33,20 @@ torch.utils.data
 - 본문은 신문 말뭉치 데이터셋, 요약문은 요약 말뭉치 데이터셋 에서 Parsing 
 - 총 데이터 4,387개 8:1:1 비율로 나누어 3,509개의 학습 데이터, 439개의 검증 데이터, 439개의 평가 데이터를 사용해 학습 진행
 
+### Run
+- ##### Train 
+  -  사전학습 모델 KoBART를 이용해 Fine-tuning
+  -  arguments
+      -  strategy (Choose strategy ['textrank', 'principal', 'lead_n'], default=None(Reference extractive summary))
+      -  ext_epcohs
+      -  abs_epochs
+      -  seed (Random seed)
+        ```
+        python main.py --strategy "?" --exp_epochs "?" --abs_epcosh "?" --seed "?"
+        ```
+ - ##### Evaluation
+    - Model이 생성한 Abstractive Summray와 Reference Abstractive Summray 사이 Rouge1,2,L Score 계산 
+    - Rouge Score를 계산하기 위해 kobart_tokenizer 사용
 
+    ![캡처](https://user-images.githubusercontent.com/64317686/120062405-1df62080-c09d-11eb-9a78-bd954595a3d5.JPG)
 
