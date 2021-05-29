@@ -46,10 +46,10 @@ def main(args):
 
     # train
     # 1차 미세조정
-    moeel = train(ext_train_loader, ext_valid_loader, a, model, tokenizer,
+    model = train(ext_train_loader, ext_valid_loader, a, model, tokenizer,
                   optimizer, device)
     # 2차 미세조정
-    moeel = train(abs_train_loader, abs_valid_loader, b, model, tokenizer,
+    model = train(abs_train_loader, abs_valid_loader, b, model, tokenizer,
                   optimizer, device)
 
     # evaluation
