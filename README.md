@@ -48,10 +48,10 @@ torch.utils.data
     - Model이 생성한 Abstractive Summray와 Reference Abstractive Summray 사이 Rouge1,2,L Score 계산 
     - Rouge Score를 계산하기 위해 kobart_tokenizer 사용
 
-    ![캡처](https://user-images.githubusercontent.com/64317686/120062405-1df62080-c09d-11eb-9a78-bd954595a3d5.JPG)
+    ![캡처](https://user-images.githubusercontent.com/64317686/120109519-b925ed80-c1a4-11eb-9dc6-bd451f0df4cb.JPG)
     
  - ##### Conclusion
     - 추출요약을 먼저 학습 시킨 후 생성요약을 학습하는 __커리큘럼 학습__ 방법이 __생성요약 성능 향상__ 에 도움을 준다.
     - 추출 요약문이 없는 경우를 대비하여 임시 추출 요약문을 만들기 위해 __TextRank, Lead-N, Pincipal 전략 사용__ 했다.
-    - __TextRank 전략을 사용해 커리큘럼 학습을 진행한 모델__ 과 정답 추출 요약문을 사용해 커리큘럼 학습을 진행한 모델을 비교했을 때 __준수한 성능__ 을 보인다.
+    - __Lead_N 전략을 사용해 커리큘럼 학습을 진행한 모델__ 과 정답 추출 요약문을 사용해 커리큘럼 학습을 진행한 모델을 비교했을 때 __준수한 성능__ 을 보인다.
 
