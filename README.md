@@ -26,7 +26,6 @@ rouge
 pandas
 numpy
 summa
-torch.utils.data
 ```
 ### Data
 - 국립 국어원 요약 말뭉치 데이터셋, 신문 말뭉치 데이터셋 사용
