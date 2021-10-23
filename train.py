@@ -23,16 +23,15 @@ def train(train_loader, valid_loader, epochs, model,
                                              pad_to_max_length=True)[
                            "input_ids"] for t in ans]
 
-            # decoder_inputs : <pad> + reference_summary
-            dec_in = [3]
-            for i in ref_sum[0][:-1]:
-                dec_in.append(i)
-
             # labels : reference_summary + <eos> token
-            if ref_sum[0].index(3):
-                ref_sum[0][ref_sum[0].index(3)] = 0
+            if ref_sum[0].index(1):
+                ref_sum[0][ref_sum[0].index(1)] = 2
             else:
-                ref_sum[0][-1] = 1
+                ref_sum[0][-1] = 2
+
+            # decoder_inputs : decoder_start token + reference_summary
+            dec_in = [2]
+            dec_in = dec_in + ref_sum[0][:-1]
 
             # tensor, gpu
             ori_doc = torch.tensor(ori_doc)
@@ -75,12 +74,12 @@ def train(train_loader, valid_loader, epochs, model,
                                  ["input_ids"] for t in val_ans1]
 
                 # labels : reference_summary + <eos> token
-                if valid_summary[0].index(3):
-                    valid_summary[0][valid_summary[0].index(3)] = 1
+                if valid_summary[0].index(1):
+                    valid_summary[0][valid_summary[0].index(1)] = 2
                 else:
-                    valid_summary[0][-1] = 1
+                    valid_summary[0][-1] = 2
 
-                    # tensor, gpu
+                # tensor, gpu
                 valid_doc = torch.tensor(valid_doc)
                 valid_summary = torch.tensor(valid_summary)
                 valid_doc = valid_doc.to(device)
